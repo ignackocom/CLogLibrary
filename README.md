@@ -21,16 +21,14 @@ int main(int argc, char* argv[])
     istatus = LOG_Init(&tchannel, LOG_CHANNEL_FILE("C:\\A\\", "Log", ".txt", "\n", LOG_PAGING_SECONDS));
     if (istatus == LOG_OK)
     {
-        for (int i = 0; i < 10000; i++)
-        {
-            istatus = LOG_Trace(&tchannel, "value %d %d", 10, 20);
-            istatus = LOG_Debug(&tchannel, "value %d %d", 10, 20);
-            istatus = LOG_Info(&tchannel, "value %d %d", 10, 20);
-            istatus = LOG_Warning(&tchannel, "value %d %d", 10, 20);
-            istatus = LOG_Error(&tchannel, "value %d %d", 10, 20);
-            istatus = LOG_Critical(&tchannel, "value %d %d", 10, 20);
-            istatus = LOG_Fatal(&tchannel, "value %d %d", 10, 20);
-        }
+        istatus = LOG_Trace(&tchannel, "value %d %d", 10, 20);
+        istatus = LOG_Debug(&tchannel, "value %d %d", 10, 20);
+        istatus = LOG_Info(&tchannel, "value %d %d", 10, 20);
+        istatus = LOG_Warning(&tchannel, "value %d %d", 10, 20);
+        istatus = LOG_Error(&tchannel, "value %d %d", 10, 20);
+        istatus = LOG_Critical(&tchannel, "value %d %d", 10, 20);
+        istatus = LOG_Fatal(&tchannel, "value %d %d", 10, 20);
+
         istatus = LOG_Close(&tchannel);
     }
 
