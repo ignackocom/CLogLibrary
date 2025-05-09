@@ -1,5 +1,5 @@
-# CLog
-Simple C Log system.<br/>
+# CLogLibrary
+Simple C Log Library system.<br/>
 C89, C99 and >C99 compatible, CPP98 and >CPP98 compatible, Embedded C compatible.
 
 Example of use
@@ -37,3 +37,4 @@ int main(int argc, char* argv[])
 ```
 
 # History of changes ...
+2025 05 09 repository renamed to CLogLibrary
