@@ -1,13 +1,16 @@
 /******************************************************************************
 * \file      CLog.c
-* \author    Peter Potrok
+* \version   2025.03.18
+* \author    Peter Potrok ( @ignackocom )
+*            ignacko.com@outlook.com
+*            https://github.com/ignackocom
 * \copyright Copyright (c) 1994 - 2025
 *            MIT License (see License.txt file)
 * \brief     C Log library
 *            C89, C99 and >C99 compatible, CPP compatible, Embedded C compatible
 * \details
 *
-* \see
+* \see       https://github.com/ignackocom
 *            and other resources
 ******************************************************************************/
 
@@ -18,8 +21,12 @@
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
 #endif /* defined(__clang__) */
 
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#endif /* defined(__clang__) */
 
-int LOG_Init(T_LOG_CHANNEL* ptchannel, char* pchpath, char* pchfilename, char* pchext, char* pchlinespace, int ipaging)
+
+int LOG_Init(T_LOG_CHANNEL* ptchannel, const char* pchpath, const char* pchfilename, const char* pchext, const char* pchlinespace, int ipaging)
 {
     /* channel clear */
     memset(ptchannel->chaPath, 0, sizeof(ptchannel->chaPath));
@@ -118,6 +125,11 @@ int log_message(T_LOG_CHANNEL* ptchannel, const char* const pchmessage, const ch
         {
             /* prepare new page string */
             memset(lchaPage, 0, sizeof(lchaPage));
+
+#ifdef _MSC_VER
+#pragma warning(disable:4996)
+#endif /* _MSC_VER */
+
             if (ptchannel->iPaging >= LOG_PAGING_YEARS)
                 sprintf(&lchaPage[strlen(lchaPage)], "_%04d", ptm->tm_year + 1900);
             if (ptchannel->iPaging >= LOG_PAGING_MONTHS)
@@ -130,6 +142,10 @@ int log_message(T_LOG_CHANNEL* ptchannel, const char* const pchmessage, const ch
                 sprintf(&lchaPage[strlen(lchaPage)], "_%02d", ptm->tm_min);
             if (ptchannel->iPaging >= LOG_PAGING_SECONDS)
                 sprintf(&lchaPage[strlen(lchaPage)], "_%02d", ptm->tm_sec);
+
+#ifdef _MSC_VER
+#pragma warning(default:4996)
+#endif /* _MSC_VER */
 
             if (strcmp(ptchannel->chaPage, lchaPage) != 0)
             {
@@ -148,12 +164,22 @@ int log_message(T_LOG_CHANNEL* ptchannel, const char* const pchmessage, const ch
         /* open file */
         if (ptchannel->fpFile == NULL)
         {
+
+#ifdef _MSC_VER
+#pragma warning(disable:4996)
+#endif /* _MSC_VER */
+
             /* create new full path */
             sprintf(lchaFullPath, "%s%s%s%s", ptchannel->chaPath, ptchannel->chaFilename, ptchannel->chaPage, ptchannel->chaExt);
 
             /* open file */
             ptchannel->fpFile = fopen(lchaFullPath, "a");
             if (ptchannel->fpFile == NULL) return(LOG_ERROR_FILE_OPEN);
+
+#ifdef _MSC_VER
+#pragma warning(default:4996)
+#endif /* _MSC_VER */
+
         }
 
 #if defined(__clang__)
@@ -313,4 +339,11 @@ int LOG_Close(T_LOG_CHANNEL* ptchannel)
     ptchannel->fpFile = NULL;
 
     return(LOG_OK);
+}
+
+
+
+long CLOG_VERSION(void)
+{
+    return (CLOG_H);
 }

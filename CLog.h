@@ -1,13 +1,16 @@
 /******************************************************************************
 * \file      CLog.h
-* \author    Peter Potrok
+* \version   2025.03.18
+* \author    Peter Potrok ( @ignackocom )
+*            ignacko.com@outlook.com
+*            https://github.com/ignackocom
 * \copyright Copyright (c) 1994 - 2025
 *            MIT License (see License.txt file)
 * \brief     C Log library
 *            C89, C99 and >C99 compatible, CPP compatible, Embedded C compatible
 * \details
 *
-* \see
+* \see       https://github.com/ignackocom
 *            and other resources
 ******************************************************************************/
 
@@ -124,7 +127,7 @@ extern "C" {
      *	0 if success, otherwise error code.
      *
      */
-    int LOG_Init(T_LOG_CHANNEL* ptchannel, char* pchpath, char* pchfilename, char* pchext, char* pchlinespace, int ipaging);
+    int LOG_Init(T_LOG_CHANNEL* ptchannel, const char* pchpath, const char* pchfilename, const char* pchext, const char* pchlinespace, int ipaging);
 
 
     /******************************************************************************
@@ -187,6 +190,67 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+
+#if defined(DEBUG) || defined(_DEBUG)
+
+#define LOG_INIT(ch,p,f,e,l,pg)     LOG_Init(ch,p,f,e,l,pg)
+
+
+#define LOG_TRACE(args)             LOG_Trace args
+
+#define LOG_DEBUG(args)             LOG_Debug args
+
+#define LOG_INFO(args)              LOG_Info args
+
+#define LOG_WARNING(args)           LOG_Warning args
+
+#define LOG_ERROR(args)             LOG_Error args
+
+#define LOG_CRITICAL(args)          LOG_Critical args
+
+#define LOG_FATAL(args)             LOG_Fatal args
+
+
+#define LOG_CLOSE(ch)               LOG_Close(ch);
+
+#else /* defined(DEBUG) || defined(_DEBUG) */
+
+#define LOG_INIT(ch,p,f,e,l,pg)     0
+
+
+#define LOG_TRACE(args)             0
+
+#define LOG_DEBUG(args)             0
+
+#define LOG_INFO(args)              0
+
+#define LOG_WARNING(args)           0
+
+#define LOG_ERROR(args)             0
+
+#define LOG_CRITICAL(args)          0
+
+#define LOG_FATAL(args)             0
+
+
+#define LOG_CLOSE(ch)               0
+
+#endif /* defined(DEBUG) || defined(_DEBUG) */
+
+
+
+/* Version */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+    long CLOG_VERSION(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 
 
 #endif /* CLOG_H */
